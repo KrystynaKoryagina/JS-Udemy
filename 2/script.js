@@ -31,7 +31,9 @@ for (let i = 0; i < 2; i++) {
 // 		console.log('Done');
 // 		appData.expenses[a] = b;
 // 		attempt--;
-// 	} 
+// 	} else {
+// 		console.log('False');
+// 	}
 // }
 
 // let attempt = 2;
@@ -43,7 +45,10 @@ for (let i = 0; i < 2; i++) {
 // 		console.log('Done');
 // 		appData.expenses[a] = b;
 // 		attempt--;
-// 	} 
+// 	} else {
+// 		console.log('False');
+// 	}
+
 // } while (attempt > 0);
 
 appData.moneyPerDay = appData.budget / 30;
