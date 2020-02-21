@@ -52,7 +52,7 @@ for (let i = 0; i < 2; i++) {
 // } while (attempt > 0);
 
 appData.moneyPerDay = appData.budget / 30;
-alert(`Ежемесячный бюджет: ${appData.moneyPerDay}`);
+alert(`Ежедневный бюджет: ${appData.moneyPerDay}`);
 
 if (appData.moneyPerDay < 100) {
 	console.log('Минимальный уровень достатка');
