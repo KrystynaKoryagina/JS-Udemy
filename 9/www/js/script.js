@@ -51,7 +51,8 @@ window.addEventListener('DOMContentLoaded', (e) => {
 
 
 	// Timer
-	const deadline = '2020-03-24';
+	//const deadline = '2020-03-24';
+	const deadline = '2020-03-24T23:06:00';
 
 	const getTimeRemaining = endtime => {
 		const timeLeft = Date.parse(endtime) - new Date().getTime(),
