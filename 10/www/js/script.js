@@ -77,6 +77,8 @@ window.addEventListener('DOMContentLoaded', (e) => {
 					minutes = timer.querySelector('.minutes'),
 					seconds = timer.querySelector('.seconds'),
 					timerId = setInterval(updateTimer, 1000);
+
+		updateTimer();
 					
 		function updateTimer() {
 			const time = getTimeRemaining(endtime);
