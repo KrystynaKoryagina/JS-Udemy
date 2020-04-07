@@ -2,49 +2,41 @@ window.addEventListener('DOMContentLoaded', (e) => {
 	'use strict';
 
 	// Tabs
-
 	const tab = document.querySelector('.info-header'),
 				tabLink = document.querySelectorAll('.info-header-tab'),
 				tabContent = document.querySelectorAll('.info-tabcontent');
 	
-	const hideTabContent = from => {
+	const hideTabs = () => {
 
-		for (let i = from; i < tabContent.length; i++) {
-			tabContent[i].classList.add('hide');
-			tabContent[i].classList.remove('show');
-		}
+		tabContent.forEach(item => {
+			item.classList.add('hide');
+			item.classList.remove('show');
+		}); 
+
+		tabLink.forEach(link => link.classList.remove('active'));
 	};
 
-	const showTabContent = idx => {
+	const showTab = (idx = 0) => {
 		tabContent[idx].classList.add('show');
 		tabContent[idx].classList.remove('hide');
+
+		tabLink[idx].classList.add('active');
 	};
 
-	const showActiveTabLink = idx => tabLink[idx].classList.add('active');
-
-	const hideTabLink = () => {
-
-		for (let i  = 0; i < tabLink.length; i++) {
-			tabLink[i].classList.remove('active');
-		}
-	};
-
-	hideTabContent(1);
-	showActiveTabLink(0);
+	hideTabs();
+	showTab();
 
 	tab.addEventListener('click', e => {
 		const target = e.target;
 
 		if (target && target.matches('.info-header-tab')) {
 
-			for (let i = 0; i < tabLink.length; i++) {
-				if (target == tabLink[i]) {
-					hideTabContent(0);
-					hideTabLink();
-					showTabContent(i);
-					showActiveTabLink(i);
+			tabLink.forEach((item, i) => {
+				if (target === item) {
+					hideTabs();
+					showTab(i);
 				}
-			}
+			});
 		}
 	});
 
@@ -130,9 +122,9 @@ window.addEventListener('DOMContentLoaded', (e) => {
 		const form = document.querySelector(formSelector);
 
 		const statusMessage = {
-			loading: "Отправка....",
-			success: "Спасибо! Ваши данные успешно отправлены!",
-			error: "Что-то пошло не так..."
+			loading: 'Отправка...',
+			success: 'Спасибо! Ваши данные успешно отправлены!',
+			error: 'Что-то пошло не так...'
 		};
 
 		const statusBlock = document.createElement('div');
