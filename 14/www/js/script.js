@@ -184,6 +184,54 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	// Form
 
+	// function sendFormData(formSelector) {
+	// 	const form = document.querySelector(formSelector);
+
+	// 	const statusMessage = {
+	// 		loading: 'Отправка...',
+	// 		success: 'Спасибо! Ваши данные успешно отправлены!',
+	// 		error: 'Что-то пошло не так...'
+	// 	};
+
+	// 	const statusBlock = document.createElement('div');
+	// 	statusBlock.classList.add('status');
+	
+	// 	form.addEventListener('submit', e => {
+	// 		e.preventDefault();
+	
+	// 		form.append(statusBlock);
+	
+	// 		const xhr = new XMLHttpRequest();
+	
+	// 		xhr.open('POST', './server.php');
+	// 		xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+	
+	// 		const formData = new FormData(form);
+	// 		let obj = {};
+	// 		formData.forEach((value, key) => obj[key] = value);
+	// 		const jsonData = JSON.stringify(obj);
+	
+	// 		xhr.send(jsonData);
+	
+	// 		xhr.addEventListener('readystatechange', () => {
+	
+	// 			if (xhr.readyState < 4) {
+	// 				statusBlock.textContent = statusMessage.loading;
+	// 			} else if (xhr.readyState === 4 && xhr.status === 200) {
+	// 				statusBlock.textContent = statusMessage.success;
+	// 			} else {
+	// 				statusBlock.textContent = statusMessage.error;
+	// 			}
+	// 		});
+	
+	// 		form.reset();
+			
+	// 		setTimeout(() => statusBlock.remove(), 3000);
+	// 	});
+	// }
+
+	//Promise
+
 	function sendFormData(formSelector) {
 		const form = document.querySelector(formSelector);
 
@@ -200,33 +248,35 @@ window.addEventListener('DOMContentLoaded', () => {
 			e.preventDefault();
 	
 			form.append(statusBlock);
-	
-			const xhr = new XMLHttpRequest();
-	
-			xhr.open('POST', './server.php');
-			xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-	
 			const formData = new FormData(form);
-			let obj = {};
-			formData.forEach((value, key) => obj[key] = value);
-			const jsonData = JSON.stringify(obj);
-	
-			xhr.send(jsonData);
-	
-			xhr.addEventListener('readystatechange', () => {
-	
-				if (xhr.readyState < 4) {
-					statusBlock.textContent = statusMessage.loading;
-				} else if (xhr.readyState === 4 && xhr.status === 200) {
-					statusBlock.textContent = statusMessage.success;
-				} else {
-					statusBlock.textContent = statusMessage.error;
-				}
+
+			const request = (data) => new Promise( (resolve, reject) => {
+
+				const xhr = new XMLHttpRequest();
+				xhr.open('POST', './server.php');
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+				xhr.addEventListener('readystatechange', () => {
+					if (xhr.readyState !== 4) {
+						statusBlock.textContent = statusMessage.loading;
+						return;
+					} else if (xhr.status === 200 && xhr.readyState === 4) {
+						resolve(statusMessage.success);
+					} else {
+						reject(statusMessage.error);
+					}
+				});
+
+				xhr.send(data);
 			});
-	
-			form.reset();
-			
-			setTimeout(() => statusBlock.remove(), 3000);
+
+			request(formData)
+				.then((message) => statusBlock.textContent = message)
+				.catch((error) => statusBlock.textContent = error)
+				.then(() => {
+					form.reset();
+					setTimeout(() => statusBlock.remove(), 3000);
+				});		
 		});
 	}
 
@@ -234,3 +284,4 @@ window.addEventListener('DOMContentLoaded', () => {
 	sendFormData('#form');
 
 });
+
